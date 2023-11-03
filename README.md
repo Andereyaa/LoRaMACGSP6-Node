@@ -1,1 +1,1 @@
-# lora-implementation-of-macgsp6
+# Implementation of MACGSP6 Protocol
