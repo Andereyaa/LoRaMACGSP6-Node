@@ -2,16 +2,20 @@
 #include <queue>
 #include "esp32-lorawan-macgsp6-node.h"
 
-struct Packet{
-
-}
 struct Payload
 {
     int hop_counter;
     char* data;
 };
+struct Packet{
+    int source_address;
+    int data_size;
+    int rssi;
+    int snr;
+}
 
-queue<Payload> transmission_queue;
+queue<Payload> Tx_queue;
+queue<Packet> Rx_queue;
 
 int initialiseLoraRadio(){
 
@@ -40,7 +44,7 @@ int initialiseLoraRadio(){
 
 int p_gsp() {}
 
-// toggleRadioOn_Off(){}
+void toggleRadio_On_Off(){}
 
 Packet listen(){
     Packet packet; 
@@ -48,8 +52,7 @@ Packet listen(){
         char* inbound_packet = LoRaRadio.readString();
         char* delimiter = ",";
         char* token = strtok(inbound_packet, delimiter);
-        while (token != NULL)
-        {
+        while (token != NULL){
             //TODO build packet struct
             token = strtok(inbound_packet, delimiter);
         }
