@@ -1,9 +1,19 @@
 #include <HardwareSerial.h>
-
+#include <queue>
 #include "esp32-lorawan-macgsp6-node.h"
 
-int initialiseLoraRadio()
+struct Packet{
+
+}
+struct Payload
 {
+    int hop_counter;
+    char* data;
+};
+
+queue<Payload> transmission_queue;
+
+int initialiseLoraRadio(){
 
     LoRaRadio.begin(baudRate, SERIAL_8N1, DEFAULT_RX_PIN, DEFAULT_TX_PIN);
     delay(delayInMillis);
@@ -32,7 +42,22 @@ int p_gsp() {}
 
 // toggleRadioOn_Off(){}
 
-//
+Packet listen(){
+    Packet packet; 
+    if(LoRaPort.available()){
+        char* inbound_packet = LoRaRadio.readString();
+        char* delimiter = ",";
+        char* token = strtok(inbound_packet, delimiter);
+        while (token != NULL)
+        {
+            //TODO build packet struct
+            token = strtok(inbound_packet, delimiter);
+        }
+    }
+    return packet;
+}
+
+void send(Packet packet){}
 
 void setup() {}
 
