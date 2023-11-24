@@ -85,3 +85,7 @@ Packet listen(){
     }
     return packet;
 }
+
+void send(Packet packet, int destination){
+    LoRaRadio.print("AT+SEND="+destination+","+packet.data.length()+","+packet.data+"\r\n");
+}
