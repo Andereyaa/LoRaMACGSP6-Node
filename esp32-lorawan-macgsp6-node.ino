@@ -7,6 +7,8 @@
 
 using namespace std;
 
+HardwareSerial LoRaRadio(2);
+
 struct Payload
 {
     int hop_counter;
@@ -15,7 +17,7 @@ struct Payload
 struct Packet{
     int source_address;
     int data_size;
-    char* data;
+    string data;
     //struct Payload payload;
     int rssi;
     int snr;
@@ -53,7 +55,6 @@ int p_gsp() {}
 
 void toggleRadio_On_Off(){}
 
-
 vector<string> split_string(const string str, char delimiter){
     vector<string> result;
     stringstream ss(str);
@@ -65,24 +66,22 @@ vector<string> split_string(const string str, char delimiter){
     return result;
 }
 
-
 Packet listen(){
     Packet packet; 
-    if(LoRaPort.available()){
-        const string inbound_packet = LoRaRadio.readString();
-        vector<string> result = split_string(inbound_packet, ',');
+    if(LoRaRadio.available()){
+        String recTest = incoming_str.substring(0, 5);
+        if (recTest == "+RCV=") {
+            const string inbound_packet = LoRaRadio.readString();
+            vector<string> result = split_string(inbound_packet, ',');
 
-        packet.source_address = int(result[0]);
-        packet.data_size = int(result[1]);
-        packet.data = result[2];
-        packet.rssi = result[3];
-        packet.snr = result[4];
+            packet.source_address = int(result[0]);
+            packet.data_size = int(result[1]);
+            packet.data = result[2];
+            packet.rssi = result[3];
+            packet.snr = result[4];
+        }else if(recTest == "+ACK="){
+
+        }
     }
     return packet;
 }
-
-void send(Packet packet){}
-
-void setup() {}
-
-void loop() {}
