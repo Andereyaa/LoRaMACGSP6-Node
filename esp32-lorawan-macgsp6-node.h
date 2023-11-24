@@ -13,10 +13,11 @@
 #define AT_CRFOP 10
 #define AT_PASSWORD "92A0ECEC9000DA0DCF0CAAB0ABA2E0EF"
 
-// MACGSP Parameters
+// MACGSP Configurations
 #define DEFAULT_GP_MIN 10
 #define DEFAULT_QP_GP_COUNT 10
 #define DEFAULT_HOP_COUNTER 10
+#define DEFAULT_DELIMITER ":"
 
 // RealTime Clock
 #define RTC
