@@ -89,3 +89,60 @@ Packet listen(){
 void send(Packet packet, int destination){
     LoRaRadio.print("AT+SEND="+destination+","+packet.data.length()+","+packet.data+"\r\n");
 }
+
+
+void setup() {
+
+    /** TODO
+     * 1. run POST 
+     * 2. init radio
+     * 3. Ping GW
+     * 4. any other ops
+     * 
+     * 
+    */
+}
+
+
+void loop() {
+
+    if(!Tx_queue.empty()){
+
+        /** TODO
+         * 1. Tx next in queue to GW
+         * 2. if no GW ack, ReTx with macgsp broadcast
+         * 2. sleep 2*GP
+         * 3. open Rx window
+        */
+
+    }else{
+
+       /** TODO
+         * 1. compute P
+         * 2.1 if p <= p_gsp then sleep 1*GP
+         * 
+        */
+    }
+
+
+    //TODO open Rx window
+    Packet packet = listen();
+    if(packet != NULL){
+
+        /** 
+         * 1. if implied ack(sender is self) then discard
+         * 2. else decrease hop counter
+         * 3. if hop counter == 0 discard
+         * 4. else add to tx_queue 
+         * 5. sleep 1*GP
+         * 
+        */
+
+
+    }else{
+
+        // 
+
+    }    
+}
+
