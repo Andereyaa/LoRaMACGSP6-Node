@@ -1,6 +1,11 @@
-#include <HardwareSerial.h>
+#include <string>
+#include <sstream>
+#include <vector>
 #include <queue>
+#include <HardwareSerial.h>
 #include "esp32-lorawan-macgsp6-node.h"
+
+using namespace std;
 
 struct Payload
 {
@@ -10,6 +15,8 @@ struct Payload
 struct Packet{
     int source_address;
     int data_size;
+    char* data;
+    //struct Payload payload;
     int rssi;
     int snr;
 }
@@ -46,16 +53,30 @@ int p_gsp() {}
 
 void toggleRadio_On_Off(){}
 
+
+vector<string> split_string(const string str, char delimiter){
+    vector<string> result;
+    stringstream ss(str);
+    string item;
+
+    while (getline(ss, item, delimiter)){
+        result.push_back(item);
+    }
+    return result;
+}
+
+
 Packet listen(){
     Packet packet; 
     if(LoRaPort.available()){
-        char* inbound_packet = LoRaRadio.readString();
-        char* delimiter = ",";
-        char* token = strtok(inbound_packet, delimiter);
-        while (token != NULL){
-            //TODO build packet struct
-            token = strtok(inbound_packet, delimiter);
-        }
+        const string inbound_packet = LoRaRadio.readString();
+        vector<string> result = split_string(inbound_packet, ',');
+
+        packet.source_address = int(result[0]);
+        packet.data_size = int(result[1]);
+        packet.data = result[2];
+        packet.rssi = result[3];
+        packet.snr = result[4];
     }
     return packet;
 }
